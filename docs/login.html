@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>User Login</title>
-
-  <!-- ✅ Correct CSS path (GitHub Pages) -->
- <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/dhruvilpatel2008/css/style.css">
 </head>
 
 <body class="auth-page">
@@ -26,21 +24,14 @@
 </div>
 
 <script>
-/* =========================
-   USER LOGIN (localStorage)
-   GitHub Pages SAFE
-========================= */
-
 document.getElementById("loginForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
   const username = document.getElementById("u").value.trim();
   const password = document.getElementById("p").value;
 
-  // get users from localStorage
   const users = JSON.parse(localStorage.getItem("users")) || [];
 
-  // find matching user
   const user = users.find(
     u => u.username === username && u.password === password
   );
