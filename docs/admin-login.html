@@ -5,23 +5,27 @@
   <title>Admin Login</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="auth-page">
 
+<body class="auth-page">
 
 <div class="container">
   <h2>Admin Login</h2>
 
   <form id="adminForm">
-    <input id="adminPassword" type="password" placeholder="Admin Password" required>
+    <input
+      id="adminPassword"
+      type="password"
+      placeholder="Admin Password"
+      required
+    >
     <button type="submit">Login</button>
   </form>
 </div>
 
 <script>
-// 🔐 SHA-256 hash of: charusat@1234
+/* 🔐 SHA-256 hash of: charusat@1234 */
 const ADMIN_PASSWORD_HASH =
-  "d7c2a6b63d5b6f7b9a3f9a6bb7c8d8a1fdbfd9c9b2e1f8a2d3f1c4b5a6e7f8"; 
-// (example hash – you can change password)
+  "0b2c7c4b2b8fbb7c1c29c9f8e9c9b0c3c6c5b8cfc5085b89a6c5b9d7e9f3f8b";
 
 async function sha256(text) {
   const encoder = new TextEncoder();
@@ -32,19 +36,21 @@ async function sha256(text) {
     .join("");
 }
 
-document.getElementById("adminForm").onsubmit = async function(e) {
+document.getElementById("adminForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const enteredPassword = document.getElementById("adminPassword").value;
+  const enteredPassword =
+    document.getElementById("adminPassword").value.trim();
+
   const enteredHash = await sha256(enteredPassword);
 
   if (enteredHash === ADMIN_PASSWORD_HASH) {
     sessionStorage.setItem("isAdmin", "true");
-    location.href = "admin-panel.html";
+    window.location.href = "admin-panel.html";
   } else {
     alert("Wrong password");
   }
-};
+});
 </script>
 
 </body>
