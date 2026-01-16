@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- 🔐 ADMIN PROTECTION -->
+  <script>
+    if (sessionStorage.getItem("isAdmin") !== "true") {
+      location.href = "admin-login.html";
+    }
+  </script>
+
+  <style>
+    body.dark {
+      background: #121212;
+      color: #fff;
+    }
+    body.dark .container {
+      background: #1e1e1e;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td, th {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body class="admin-page">
+
+<!-- 🌗 THEME SWITCH -->
+<input type="checkbox" id="themeSwitch" hidden>
+<label for="themeSwitch" class="theme-toggle">
+  <span>🌙 / ☀️</span>
+</label>
+
+<div class="container">
+  <h2>Admin Panel</h2>
+  <p>GitHub Pages Demo Admin Panel ✅</p>
+
+  <!-- USER APPROVAL (DEMO) -->
+  <h3>User Approval (Demo)</h3>
+  <table id="users">
+    <tr>
+      <th>User</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    <tr>
+      <td>user1</td>
+      <td>Pending</td>
+      <td><button onclick="approve(this)">Approve</button></td>
+    </tr>
+    <tr>
+      <td>user2</td>
+      <td>Approved</td>
+      <td><button disabled>Approved</button></td>
+    </tr>
+  </table>
+
+  <!-- UPLOADS (STATIC DEMO) -->
+  <h3>Uploads (Demo)</h3>
+  <ul id="uploads">
+    <li>📁 documents</li>
+    <li>📁 images</li>
+    <li>📄 notes.pdf</li>
+  </ul>
+
+  <br>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+/* 🌗 THEME TOGGLE */
+const themeSwitch = document.getElementById("themeSwitch");
+
+themeSwitch.onchange = () => {
+  document.body.classList.toggle("dark", themeSwitch.checked);
+  localStorage.setItem("theme", themeSwitch.checked ? "dark" : "light");
+};
+
+if (localStorage.getItem("theme") === "dark") {
+  themeSwitch.checked = true;
+  document.body.classList.add("dark");
+}
+
+/* ✅ DEMO APPROVE */
+function approve(btn) {
+  btn.parentElement.previousElementSibling.innerText = "Approved";
+  btn.innerText = "Approved";
+  btn.disabled = true;
+}
+
+/* 🚪 LOGOUT */
+function logout() {
+  sessionStorage.removeItem("isAdmin");
+  location.href = "admin-login.html";
+}
+</script>
+
+</body>
+</html>
