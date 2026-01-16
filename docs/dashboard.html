@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>User Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
+
+  <!-- ✅ Correct CSS path -->
+  <link rel="stylesheet" href="/dhruvilpatel2008/css/style.css">
 
   <!-- 🔐 LOGIN PROTECTION (ADMIN OR USER) -->
   <script>
     if (
       sessionStorage.getItem("isAdmin") !== "true" &&
-      sessionStorage.getItem("user") !== "true"
+      !sessionStorage.getItem("user")
     ) {
       location.href = "login.html";
     }
@@ -48,6 +50,13 @@
 
 <div class="container">
   <h2>Study Material</h2>
+
+  <!-- 👤 USER NAME -->
+  <p>
+    Welcome,
+    <b id="username"></b>
+  </p>
+
   <div id="path">Path: /materials</div>
 
   <ul id="uploads">
@@ -68,6 +77,13 @@
 </div>
 
 <script>
+/* ===========================
+   SHOW USER NAME
+=========================== */
+const user = sessionStorage.getItem("user");
+document.getElementById("username").innerText =
+  user ? user : "Admin";
+
 /* ===========================
    SHOW ADMIN BACK BUTTON
 =========================== */
@@ -91,7 +107,10 @@ const themeSwitch = document.getElementById("themeSwitch");
 
 themeSwitch.onchange = () => {
   document.body.classList.toggle("dark");
-  localStorage.setItem("theme", themeSwitch.checked ? "dark" : "light");
+  localStorage.setItem(
+    "theme",
+    themeSwitch.checked ? "dark" : "light"
+  );
 };
 
 if (localStorage.getItem("theme") === "dark") {
