@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- 🔐 LOGIN PROTECTION (ADMIN OR USER) -->
+  <script>
+    if (
+      sessionStorage.getItem("isAdmin") !== "true" &&
+      sessionStorage.getItem("user") !== "true"
+    ) {
+      location.href = "login.html";
+    }
+  </script>
+
+  <style>
+    /* Theme styles */
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+    body.dark .container {
+      background: #1e1e1e;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+      font-size: 22px;
+    }
+    #themeSwitch {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="admin-page">
+
+<!-- 🌗 THEME SWITCH -->
+<input type="checkbox" id="themeSwitch">
+<label for="themeSwitch" class="theme-toggle">
+  <span>☀️</span>
+  <span>🌙</span>
+</label>
+
+<div class="container">
+  <h2>Study Material</h2>
+  <div id="path">Path: /materials</div>
+
+  <ul id="uploads">
+    <li>📁 <a href="#" onclick="openFolder('mechanics')">Engineering Mechanics</a></li>
+    <li>📁 <a href="#" onclick="openFolder('maths')">Mathematics</a></li>
+    <li>📁 <a href="#" onclick="openFolder('cpp')">C++ Programming</a></li>
+  </ul>
+
+  <br>
+
+  <!-- 🔁 BACK LINK (ADMIN ONLY) -->
+  <div id="adminBack" style="display:none">
+    <a href="admin-panel.html">⬅ Back to Admin Panel</a><br><br>
+  </div>
+
+  <!-- 🚪 LOGOUT -->
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+/* ===========================
+   SHOW ADMIN BACK BUTTON
+=========================== */
+if (sessionStorage.getItem("isAdmin") === "true") {
+  document.getElementById("adminBack").style.display = "block";
+}
+
+/* ===========================
+   LOGOUT
+=========================== */
+function logout() {
+  sessionStorage.removeItem("isAdmin");
+  sessionStorage.removeItem("user");
+  location.href = "login.html";
+}
+
+/* ===========================
+   THEME SWITCH
+=========================== */
+const themeSwitch = document.getElementById("themeSwitch");
+
+themeSwitch.onchange = () => {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("theme", themeSwitch.checked ? "dark" : "light");
+};
+
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+  themeSwitch.checked = true;
+}
+
+/* ===========================
+   STATIC MATERIAL DATA
+=========================== */
+const data = {
+  mechanics: [
+    { name: "Friction Notes.pdf", link: "#" },
+    { name: "Truss MCQ.pdf", link: "#" }
+  ],
+  maths: [
+    { name: "Matrices.pdf", link: "#" },
+    { name: "Integration.pdf", link: "#" }
+  ],
+  cpp: [
+    { name: "Basics.pdf", link: "#" },
+    { name: "OOP Concepts.pdf", link: "#" }
+  ]
+};
+
+function openFolder(folder) {
+  path.innerText = "Path: /materials/" + folder;
+  uploads.innerHTML = `<li><a href="#" onclick="goBack()">⬅ Back</a></li>`;
+
+  data[folder].forEach(file => {
+    uploads.innerHTML += `
+      <li>📄 <a href="${file.link}" target="_blank">${file.name}</a></li>
+    `;
+  });
+}
+
+function goBack() {
+  path.innerText = "Path: /materials";
+  uploads.innerHTML = `
+    <li>📁 <a href="#" onclick="openFolder('mechanics')">Engineering Mechanics</a></li>
+    <li>📁 <a href="#" onclick="openFolder('maths')">Mathematics</a></li>
+    <li>📁 <a href="#" onclick="openFolder('cpp')">C++ Programming</a></li>
+  `;
+}
+</script>
+
+</body>
+</html>
