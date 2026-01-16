@@ -2,47 +2,35 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Admin Login</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Admin Login DEBUG</title>
 </head>
 
-<body class="auth-page">
+<body>
 
-<div class="container">
-  <h2>Admin Login</h2>
+<h2>ADMIN LOGIN DEBUG MODE</h2>
 
-  <form id="adminForm">
-    <input
-      id="adminPassword"
-      type="password"
-      placeholder="Admin Password"
-      required
-    >
-    <button type="submit">Login</button>
-  </form>
-</div>
+<form id="adminForm">
+  <input id="adminPassword" type="password" placeholder="Password">
+  <button type="submit">Login</button>
+</form>
 
 <script>
-/* =========================
-   SIMPLE ADMIN LOGIN
-   (GitHub Pages SAFE)
-========================= */
+alert("✅ NEW JS FILE IS LOADED");
 
-const ADMIN_PASSWORD = "charusat@1234"; // 👈 EXACT PASSWORD
-
-document.getElementById("adminForm").addEventListener("submit", function (e) {
+document.getElementById("adminForm").onsubmit = function (e) {
   e.preventDefault();
 
-  const entered =
-    document.getElementById("adminPassword").value.trim();
+  const entered = document.getElementById("adminPassword").value;
+  alert("You typed: " + entered);
 
-  if (entered === ADMIN_PASSWORD) {
+  if (entered === "charusat@1234") {
+    alert("LOGIN SUCCESS");
     sessionStorage.setItem("isAdmin", "true");
-    window.location.href = "admin-panel.html";
+    location.href = "admin-panel.html";
   } else {
     alert("Wrong password");
   }
-});
+};
 </script>
 
 </body>
