@@ -23,28 +23,20 @@
 </div>
 
 <script>
-/* 🔐 SHA-256 hash of: charusat@1234 */
-const ADMIN_PASSWORD_HASH =
-  "0b2c7c4b2b8fbb7c1c29c9f8e9c9b0c3c6c5b8cfc5085b89a6c5b9d7e9f3f8b";
+/* =========================
+   SIMPLE ADMIN LOGIN
+   (GitHub Pages SAFE)
+========================= */
 
-async function sha256(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
-}
+const ADMIN_PASSWORD = "charusat@1234"; // 👈 EXACT PASSWORD
 
-document.getElementById("adminForm").addEventListener("submit", async function (e) {
+document.getElementById("adminForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const enteredPassword =
+  const entered =
     document.getElementById("adminPassword").value.trim();
 
-  const enteredHash = await sha256(enteredPassword);
-
-  if (enteredHash === ADMIN_PASSWORD_HASH) {
+  if (entered === ADMIN_PASSWORD) {
     sessionStorage.setItem("isAdmin", "true");
     window.location.href = "admin-panel.html";
   } else {
